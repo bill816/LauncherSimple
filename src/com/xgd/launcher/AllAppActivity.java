@@ -107,8 +107,8 @@ OnItemSelectedListener, OnItemClickListener,OnPageChangeListener{
 	        		}            		
 	        	}  
 	        }
-
-			final int PageCount = (int) Math.ceil(appList.size() / 15.0f);
+	        int pageSize = getResources().getInteger(R.integer.config_page_size);
+			final int PageCount = (int) Math.ceil(appList.size() / (float)pageSize);
 			//Log.i("app", "×Ü¹²" + PageCount + "Ò³");
 			mLists = new ArrayList<AllAppGridView>();
 
