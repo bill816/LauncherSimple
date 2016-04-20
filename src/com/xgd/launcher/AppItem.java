@@ -4,8 +4,8 @@ import android.graphics.drawable.Drawable;
 public class AppItem{
 
 	private int appPosition = 0;
-	private String appName = null;// 应用程序名
-	private Drawable appIcon = null;// 应用程序图片
+	private String appName = null;
+	private Drawable appIcon = null;
 	private String packageName = null;
 	private String className = null;
 	

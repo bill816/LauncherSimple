@@ -34,9 +34,9 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.AdapterView.OnItemSelectedListener;
 
 /** 
- * Ìá¹©Íâ²¿ÌØÊâ°´¼üµ÷ÓÃ
- * @data 2014-5-8 17:22:06
- * @author yongshun.zhou
+ * 
+ * @data 2016-4-20
+ * @author guoxiao
  */
 public class AllAppActivity extends Activity implements 
 OnItemSelectedListener, OnItemClickListener,OnPageChangeListener, OnItemLongClickListener{
@@ -114,7 +114,7 @@ OnItemSelectedListener, OnItemClickListener,OnPageChangeListener, OnItemLongClic
 	        }
 	        int pageSize = getResources().getInteger(R.integer.config_page_size);
 			final int PageCount = (int) Math.ceil(appList.size() / (float)pageSize);
-			//Log.i("app", "×Ü¹²" + PageCount + "Ò³");
+			//Log.i("app", "ï¿½Ü¹ï¿½" + PageCount + "Ò³");
 			mLists = new ArrayList<AllAppGridView>();
 
 			for (int i = 0; i < PageCount; i++) {
@@ -149,7 +149,6 @@ OnItemSelectedListener, OnItemClickListener,OnPageChangeListener, OnItemLongClic
 	public void onPageSelected(int index) {
 		mPageindex = index;
 		pi.setCurrentPage(index);
-		//Log.i("app", "µ±Ç°ÔÚµÚ" + index + "Ò³");
 	}
 
 	@Override
@@ -179,8 +178,9 @@ OnItemSelectedListener, OnItemClickListener,OnPageChangeListener, OnItemLongClic
 		int pageSize = getResources().getInteger(R.integer.config_page_size);
 		AppItem appInfo = (AppItem) appList.get(mPageindex * pageSize + position);
 		String packageName = appInfo.getPackageName();
-		String appName = appInfo.getAppName();
-		showDialog("ÊÇ·ñÒªÐ¶ÔØ " + appName,packageName);
+        uninstall(packageName);
+		//String appName = appInfo.getAppName();
+		//showDialog("æ˜¯å¦è¦å¸è½½ " + appName,packageName);
 		return true;
 	}
 	
@@ -198,9 +198,9 @@ OnItemSelectedListener, OnItemClickListener,OnPageChangeListener, OnItemLongClic
 	
 	private void showDialog(final String str,final String packageName){
 	  AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(this); 
-	  dialogBuilder.setTitle("Ð¶ÔØ");
+	  dialogBuilder.setTitle("å¸è½½");
 	  dialogBuilder.setMessage(str);
-	  dialogBuilder.setPositiveButton("È·¶¨", new OnClickListener() {
+	  dialogBuilder.setPositiveButton("ç¡®å®š", new OnClickListener() {
 		
 		@Override
 		public void onClick(DialogInterface dialog, int which) {
@@ -208,7 +208,7 @@ OnItemSelectedListener, OnItemClickListener,OnPageChangeListener, OnItemLongClic
 			
 		}
 	});
-	  dialogBuilder.setNegativeButton("È¡Ïû", null);
+	  dialogBuilder.setNegativeButton("å–æ¶ˆ", null);
 	  dialogBuilder.create();
 	  dialogBuilder.show();
 	}

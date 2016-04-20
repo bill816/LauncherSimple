@@ -4,8 +4,8 @@ import android.graphics.drawable.Drawable;
 
 public class AppInfo{  
 	
-	private String appName = null;//应用程序名
-	private Drawable icon = null;//应用程序图片
+	private String appName = null;
+	private Drawable icon = null;
 	private String packageName = null;
 	private String className = null;
 	

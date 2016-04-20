@@ -23,7 +23,7 @@ public class AllAppGridView extends GridView {
 		mGridViewAdapter = (AllAppGridViewAdapter)adapter;
 	}
 
-	public void setCurrentPosition(int pos) {// 刷新adapter前，在activity中调用这句传入当前选中的item在屏幕中的次序
+	public void setCurrentPosition(int pos) {
 		this.position = pos;
 		mGridViewAdapter.notifyDataSetChanged(position);
 	}
