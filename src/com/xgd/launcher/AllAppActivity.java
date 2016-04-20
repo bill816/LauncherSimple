@@ -11,19 +11,24 @@ import com.xgd.launcher.AllAppViewPagerAdapter;
 import com.xgd.launcher.PageIndicator;
 import com.xgd.launcher.AppItem;
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.BroadcastReceiver;
 import android.content.ComponentName;
 import android.content.Context;
+import android.content.DialogInterface;
+import android.content.DialogInterface.OnClickListener;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemLongClickListener;
 import android.widget.TextView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.AdapterView.OnItemSelectedListener;
@@ -34,7 +39,7 @@ import android.widget.AdapterView.OnItemSelectedListener;
  * @author yongshun.zhou
  */
 public class AllAppActivity extends Activity implements 
-OnItemSelectedListener, OnItemClickListener,OnPageChangeListener{
+OnItemSelectedListener, OnItemClickListener,OnPageChangeListener, OnItemLongClickListener{
 	
 	private AllAppGridViewAdapter mGridViewAdapter;
 	private AllAppViewPagerAdapter adapter;
@@ -123,6 +128,7 @@ OnItemSelectedListener, OnItemClickListener,OnPageChangeListener{
 				gv.setVerticalSpacing(-12);
 				//gv.setSelector(R.drawable.item_bg_selected2);
 				gv.setOnItemClickListener(this);
+				gv.setOnItemLongClickListener(this);
 				//gv.setOnItemSelectedListener(this);
 				mLists.add(gv);
 			}
@@ -166,9 +172,45 @@ OnItemSelectedListener, OnItemClickListener,OnPageChangeListener{
 			long id) {
 		mLists.get(mPageindex).setCurrentPosition(position);
 	}
+	
+	@Override
+	public boolean onItemLongClick(AdapterView<?> parent, View view,
+			int position, long id) {
+		int pageSize = getResources().getInteger(R.integer.config_page_size);
+		AppItem appInfo = (AppItem) appList.get(mPageindex * pageSize + position);
+		String packageName = appInfo.getPackageName();
+		String appName = appInfo.getAppName();
+		showDialog("是否要卸载 " + appName,packageName);
+		return true;
+	}
+	
+	public void uninstall(String packageName){
+		
+		Intent intent = new Intent();
+	    intent.setAction(Intent.ACTION_DELETE);
+	    intent.setData(Uri.parse("package:" + packageName));
+		startActivity(intent);
+	}
 
 	@Override
 	public void onNothingSelected(AdapterView<?> parent) {
+	}
+	
+	private void showDialog(final String str,final String packageName){
+	  AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(this); 
+	  dialogBuilder.setTitle("卸载");
+	  dialogBuilder.setMessage(str);
+	  dialogBuilder.setPositiveButton("确定", new OnClickListener() {
+		
+		@Override
+		public void onClick(DialogInterface dialog, int which) {
+			uninstall(packageName);
+			
+		}
+	});
+	  dialogBuilder.setNegativeButton("取消", null);
+	  dialogBuilder.create();
+	  dialogBuilder.show();
 	}
 	
 	private BroadcastReceiver mReceiver = new BroadcastReceiver() {
@@ -186,4 +228,6 @@ OnItemSelectedListener, OnItemClickListener,OnPageChangeListener{
 			}
 		}
 	};
+
+
 }
