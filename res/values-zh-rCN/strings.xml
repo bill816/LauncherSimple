@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="app_name">主页</string>
+    <string name="app_name">XGD主页</string>
     <string name="load_init_info">正在初始化数据...</string>
     <string name="home_title_tv">电视</string>
     <string name="home_title_movie">电影</string>

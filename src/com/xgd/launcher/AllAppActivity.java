@@ -12,6 +12,7 @@ import com.xgd.launcher.PageIndicator;
 import com.xgd.launcher.AppItem;
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.WallpaperManager;
 import android.content.BroadcastReceiver;
 import android.content.ComponentName;
 import android.content.Context;
@@ -21,6 +22,9 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
+import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
@@ -29,6 +33,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemLongClickListener;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.AdapterView.OnItemSelectedListener;
@@ -62,12 +67,23 @@ OnItemSelectedListener, OnItemClickListener,OnPageChangeListener, OnItemLongClic
 		mViewPager.setOnPageChangeListener(this);
 		adapter = new AllAppViewPagerAdapter(this, mLists);
 		mViewPager.setAdapter(adapter);
-		
+		setBackground();
 		IntentFilter filter = new IntentFilter();
 		filter.addAction("android.intent.action.PACKAGE_ADDED");
 		filter.addAction("android.intent.action.PACKAGE_REMOVED");
 		filter.addDataScheme("package");
 		registerReceiver(mReceiver, filter);
+	}
+	
+	@SuppressWarnings("deprecation")
+	private void setBackground(){
+		WallpaperManager wallpaperManager = WallpaperManager  
+                .getInstance(this);  
+        // 获取当前壁纸  
+		BitmapDrawable wallpaperDrawable = (BitmapDrawable)wallpaperManager.getDrawable();  
+        // 将Drawable,转成Bitmap  
+        RelativeLayout layout = (RelativeLayout)findViewById(R.id.main_layout);
+        layout.setBackgroundDrawable(wallpaperDrawable);
 	}
 	
 	@Override
